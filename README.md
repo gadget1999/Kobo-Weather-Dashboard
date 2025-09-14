@@ -32,7 +32,7 @@ This guide covers installing **Nickel Menu**, **FBInk** and setup **Weather Stat
 ## Step 1: Install Nickel Menu
 
 1. Download the latest `KoboRoot.tgz` from the [Nickel Menu releases page](https://github.com/pgaskin/NickelMenu/releases).  
-2. Connect the Kobo Touch via USB.  
+2. Connect the Kobo Touch to PC via USB.  
 3. Copy `KoboRoot.tgz` into the `.kobo` folder.
 4. Safely eject the device.  
 5. The Kobo will reboot and install Nickel Menu automatically.  
@@ -43,10 +43,10 @@ This guide covers installing **Nickel Menu**, **FBInk** and setup **Weather Stat
 
 ## Step 2: Install FBInk
 
-`fbink` lets you print debug/status messages to the Kobo screen.  
+`FBInk` allows scripts to print text or display images on the Kobo screen.  
 
-1. Download the latest `fbink` binary from the [FBInk discussion page](https://www.mobileread.com/forums/showthread.php?t=299110).
-2. Connect the Kobo Touch via USB.
+1. Download the `fbink` binary from the [FBInk discussion page](https://www.mobileread.com/forums/showthread.php?t=299110).
+2. Connect the Kobo Touch to PC via USB.
 3. Copy `KoboRoot.tgz` into the `.kobo` folder.
 4. Safely eject the device.  
 5. The Kobo will reboot and install FBInk automatically.  
@@ -69,7 +69,7 @@ With the container image, you can provide quotes to display (mine example shown 
 ## Step 4: Copy weather station script files
 
 1. Download the files in this repo.
-2. Connect the Kobo Touch via USB.
+2. Connect the Kobo Touch to PC via USB.
 3. Copy the folders under `Kobo\mnt\onboard\.adds` (`nm` and `bin`) into the `.adds` folder.
 4. Update the file `Kobo\mnt\onboard\.adds\bin\.env`, change `KINDLE_WEATHER_URL` value to your web server and GPS coordinates above
 5. Safely eject the device.
