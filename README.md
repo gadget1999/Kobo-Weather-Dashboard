@@ -1,5 +1,5 @@
 # Kobo-Weather-Station
-Turn an old Kobo e-ink reader into a 1.5-watts Linux server and weather station.
+Turn an old Kobo e-Reader into a 1.5-watts Linux server and always-on e-ink weather station. This guide walks you through the steps to configure and running a script that displays weather images on the screen.
 
 ![Sample Kobo weather station photo](Kobo_Weather_Station.jpg)
 
@@ -25,7 +25,7 @@ This guide covers installing **Nickel Menu**, **FBInk** and setup **Weather Stat
 | USB cable + computer | To copy files to the `.kobo` directory. |
 | Access to hidden folders | Must be able to see `.kobo` and `.adds`. |
 | [Nickel Menu release](https://github.com/pgaskin/NickelMenu/releases) | Provides menu customization. |
-| [fbink binary](https://github.com/NiLuJe/FBInk/releases) | For displaying weather PNG files. |
+| [FBInk info](https://www.mobileread.com/forums/showthread.php?t=299110) | For displaying weather PNG files. |
 
 ---
 
@@ -64,7 +64,7 @@ The docker image to be used is: https://hub.docker.com/r/gadget1999/rpi-nook-wea
 Get the following information: Weather providers API Keys (NWS or Tomorrow.io) <br>
 An example script to run the image can be found here: Run weather web server container <br>
 Once the web server is running, you can use this URL to get the weather info in 600x800 PNG: https://yourserver:port/kindle_image?gps_coordinates=39.7128,-76.0060 (replace with your own GPS coordinates) <br>
-With the container image, you can provide quotes to display (mine example shown is IMDB good movies, but you can use, e.g., quotes of the day)
+With the container image, you can provide quotes to display (mine example shown is jokes, but you can use, e.g., quotes of the day)
 
 ## Step 4: Copy weather station script files
 
