@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Create pts mount if not already mounted
+if ! mount | grep -q '/dev/pts'; then
+  mkdir -p /dev/pts
+  mount -t devpts devpts /dev/pts
+fi
+
+# Start telnet daemon (telnetd) on port 23 with login support
+/usr/sbin/telnetd -l /bin/login -p 23 &

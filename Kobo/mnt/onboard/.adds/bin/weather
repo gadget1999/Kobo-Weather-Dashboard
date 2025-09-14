@@ -1,0 +1,103 @@
+#!/bin/sh
+
+CMD_PATH=$(dirname "$0")
+source $CMD_PATH/.env
+
+# ENV variables
+LOG_FILE="/tmp/weather.log"
+FBINK_CMD="/usr/bin/fbink"
+POWER_BUTTON_MONITOR="/mnt/onboard/.adds/bin/power-button"
+WIFI_DEVICE="wlan0"
+TMP_FILE="/tmp/kindle.tmp"
+DISPLAY_FILE="/tmp/kindle.png"
+DISABLE_SYS_UI_FLAG="/tmp/sys_ui_disabled"
+FULL_REFRESH_INTERVAL=6
+WEATHER_FETCH_INTERVAL=1200  # 20 minutes
+
+debug() {
+ local TIMESTAMP=$(date +%Y.%m.%d_%H:%M:%S)
+ echo "$TIMESTAMP $1"
+}
+
+log() {
+ local TIMESTAMP=$(date +%Y.%m.%d_%H:%M:%S)
+ echo "$TIMESTAMP $1"
+ echo "$TIMESTAMP $1" >> $LOG_FILE
+}
+
+is_valid_PNG() {
+ local filepath=$1
+ # Check if the file size is larger than 10KB
+ local size=$(stat -c%s "$filepath" 2>/dev/null)
+ if [ -f "$filepath" ] && [ "$size" -gt "10240" ]; then
+  echo "true"
+ else
+  echo "false"
+ fi
+}
+  
+download_weather() {
+ # Download the PNG to temp file
+ debug "Downloading weather PNG from: $KINDLE_WEATHER_URL"
+ wget -q -O "$TMP_FILE" "$KINDLE_WEATHER_URL"
+ # Check if download succeeded
+ if [ $? -eq 0 ] && [ $(is_valid_PNG $TMP_FILE) == "true" ]; then
+  # Move temp file to the display file
+  mv "$TMP_FILE" "$DISPLAY_FILE"
+ else
+  debug "Failed to download image."
+ fi
+}
+
+full_refresh_counter=0
+display_weather() {
+ # Check if display file is valid
+ if [ $(is_valid_PNG $DISPLAY_FILE) != "true" ]; then
+  debug "Display image ($DISPLAY_FILE) is not valid."
+  return
+ fi
+
+ if [ $full_refresh_counter -eq 0 ]; then
+  debug "Display image: $DISPLAY_FILE (full refresh)"
+  $FBINK_CMD -i "$DISPLAY_FILE" -f -q
+ else
+  debug "Display image: $DISPLAY_FILE"
+  $FBINK_CMD -g "file=$DISPLAY_FILE" -q
+ fi
+ full_refresh_counter=$(( (full_refresh_counter + 1) % $FULL_REFRESH_INTERVAL ))
+}
+
+# initially the wifi keep dropping after one minute no matter what
+# later on it's found out it's power-optimization logic from native UI
+disable_native_ui() {
+ if [ -f "$DISABLE_SYS_UI_FLAG" ]; then
+  debug "Native UI alredy stopped, skipping..."
+  return
+ fi
+
+ # Disable wifi power saving (otherwise wifi will disconnect after one minute)
+ /sbin/iwconfig $WIFI_DEVICE power off
+
+ # Kill Kobo native UI (nickel) and watchdog
+ log "Disable native UI."
+ killall -9 nickel 2>/dev/null
+ killall -9 sickel watchdog 2>/dev/null
+ killall -9 hindenburg 2>/dev/null
+
+ # Start power button monitor in background
+ $POWER_BUTTON_MONITOR &
+
+ # Set flag
+ /bin/touch $DISABLE_SYS_UI_FLAG
+}
+
+disable_native_ui
+
+# no longer need to check stop flag
+# just power off device to switch back to native UI
+while true; do
+ download_weather
+ display_weather
+ debug "Sleep for $WEATHER_FETCH_INTERVAL seconds."
+ sleep $WEATHER_FETCH_INTERVAL
+done

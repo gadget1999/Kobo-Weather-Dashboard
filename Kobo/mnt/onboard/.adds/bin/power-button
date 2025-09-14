@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Simple power button monitor for Kobo Touch
+
+# Find the input device for power button
+# in /proc/bus/input/devices, look for "power" keyword
+POWER_DEV="/dev/input/event0"
+
+echo "Monitoring power button on $POWER_DEV"
+# Use evtest-like loop with busybox cat
+while true; do
+ # read 24 bytes at a time (struct input_event)
+ dd if="$POWER_DEV" bs=24 count=1 2>/dev/null | \
+ hexdump -v -e '4/1 "%02x " "\n"' | \
+ while read line; do
+  echo "Event: $line"
+  sync
+  poweroff
+  exit 0
+ done
+done

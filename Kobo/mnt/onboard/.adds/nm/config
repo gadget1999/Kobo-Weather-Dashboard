@@ -1,0 +1,2 @@
+menu_item :main :Start Weather :cmd_spawn :quiet :/mnt/onboard/.adds/bin/weather
+menu_item :main :Start Telnet  :cmd_spawn :quiet :/mnt/onboard/.adds/bin/start-telnet
