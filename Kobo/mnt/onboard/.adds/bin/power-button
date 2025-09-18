@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# ENV variables
+FBINK_CMD="/usr/bin/fbink"
+
 # Simple power button monitor for Kobo Touch
 
 # Find the input device for power button
@@ -15,6 +18,7 @@ while true; do
  while read line; do
   echo "Event: $line"
   sync
+  $FBINK_CMD -q -x 10 -y 32 ">> Powered off <<"
   poweroff
   exit 0
  done
