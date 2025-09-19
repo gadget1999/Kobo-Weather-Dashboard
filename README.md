@@ -1,5 +1,5 @@
-# Kobo-Weather-Station
-Turn an old Kobo e-Reader into a 1.5-watts Linux server and always-on e-ink weather station. This guide walks you through the steps to configure and running a script that displays weather images on the screen.
+# Kobo-Weather-Dashboard
+Turn an old Kobo e-Reader into a 1.5-watts Linux server and always-on e-ink weather dashboard. This guide walks you through the steps to configure and running a script that displays weather images on the screen.
 
 ![Sample Kobo weather station photo](Kobo_Weather_Station.jpg)
 
