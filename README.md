@@ -92,5 +92,6 @@ A few notes about the weather script:
 * [Nickel Menu GitHub](https://github.com/pgaskin/NickelMenu)
 * [FBInk GitHub](https://github.com/NiLuJe/FBInk)
 * [Kobo Development Forum on MobileRead](https://www.mobileread.com/forums/forumdisplay.php?f=247)
+* [Kobo E-INK Weather Station](https://www.instructables.com/Kobo-Weather-Station/)
 
 ```
