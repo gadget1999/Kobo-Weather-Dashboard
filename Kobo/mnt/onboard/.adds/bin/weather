@@ -80,8 +80,9 @@ disable_native_ui() {
 
  # Kill Kobo native UI (nickel) and watchdog
  log "Disable native UI."
- killall -9 nickel 2>/dev/null
  killall -9 sickel watchdog 2>/dev/null
+ killall -9 nickel 2>/dev/null
+ killall -9 fontickel 2>/dev/null
  killall -9 hindenburg 2>/dev/null
 
  # Start power button monitor in background
@@ -100,4 +101,6 @@ while true; do
  display_weather
  debug "Sleep for $WEATHER_FETCH_INTERVAL seconds."
  sleep $WEATHER_FETCH_INTERVAL
+ # seems ntpd sometimes get stuck and a lot of instances are spawned
+ pkill -f /usr/local/Kobo/ntpd.sh
 done
